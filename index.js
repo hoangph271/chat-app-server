@@ -38,9 +38,8 @@ const connectDb = () => new Promise((resolve, reject) => {
     origin: ['https://practical-turing-272195.netlify.app', 'http://localhost:8080'],
   }))
 
-  const io = SocketIO(server, {
-    origins: ['https://practical-turing-272195.netlify.app', 'http://localhost:8080'],
-  })
+  const io = SocketIO(server)
+  io.origins(['https://practical-turing-272195.netlify.app:443', 'http://localhost:8080'])
 
   const db = await connectDb()
   const dbUsers = db.collection('users')
