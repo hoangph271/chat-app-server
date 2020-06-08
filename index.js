@@ -32,19 +32,6 @@ const connectDb = () => new Promise((resolve, reject) => {
   const app = express()
   const server = http.Server(app)
   const socketMap = new Map()
-  
-  app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:8080, https://practical-turing-272195.netlify.app')
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-
-   if (req.method === 'OPTIONS') {
-        res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, OPTIONS')
-        res.header('Access-Control-Max-Age', 120)
-        return res.status(200).json({})
-    }
-
-    next()
-  })
 
   app.use(cors({
     credentials: true,
