@@ -48,7 +48,14 @@ const connectDb = () => new Promise((resolve, reject) => {
 
   app.get('/messages/:threadId', async (req, res) => {
     const { threadId } = req.params
-    const messages = await dbMessages.find({ threadId }).toArray()
+    const { time = 0 } = req.query
+
+    const messages = await dbMessages.find({
+      $and: [
+        { threadId },
+        { time: { $gt: Number(time) } }
+      ]
+    }).toArray()
 
     res.send(messages)
   })
