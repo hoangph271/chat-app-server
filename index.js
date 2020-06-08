@@ -35,11 +35,11 @@ const connectDb = () => new Promise((resolve, reject) => {
 
   app.use(cors({
     credentials: true,
-    origin: ['https://practical-turing-272195.netlify.app', 'http://localhost:3000'],
+    origin: ['https://practical-turing-272195.netlify.app', 'http://localhost:8080'],
   }))
 
   const io = SocketIO(server, {
-    origins: ['https://practical-turing-272195.netlify.app', 'http://localhost:3000'],
+    origins: ['https://practical-turing-272195.netlify.app', 'http://localhost:8080'],
   })
 
   const db = await connectDb()
