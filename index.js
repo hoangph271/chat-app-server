@@ -213,6 +213,7 @@ const connectDb = () => new Promise((resolve, reject) => {
 
     socket.emit('updateUsers')
     socket.on('disconnect', async () => {
+      if (!_userId) return
       getUserSockets(_userId).delete(socket)
 
       if (getUserSockets(_userId).size === 0) {
