@@ -196,26 +196,23 @@ const connectDb = () => new Promise((resolve, reject) => {
 
       socket.emit('updateFriends')
     })
-    socket.on('@send-message', async ({ _id, message }) => {
-      const threadId = [_userId, _id].sort().join('_')
+    socket.on('@send-message', async (params) => {
+      const { _id, from, to, content } = params
+      const threadId = [from, to].sort().join('_')
+
       const insertRes = await dbMessages.insertOne({
         threadId,
         time: Date.now(),
-        from: _userId,
-        to: _id,
-        content: message,
+        content,
+        from,
+        _id,
+        to,
       })
 
-      getUserSockets(_id).forEach(socket => {
-        socket.emit('@new-message', {
-          ...insertRes.ops[0],
-        })
-      })
-      getUserSockets(_userId).forEach(socket => {
-        socket.emit('@new-message', {
-          ...insertRes.ops[0],
-        })
-      })
+      ;[
+        ...getUserSockets(from),
+        ...getUserSockets(to),
+      ].forEach(socket => socket.emit('@new-message', insertRes.ops[0]))
     })
 
     socket.emit('updateUsers')
