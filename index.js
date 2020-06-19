@@ -35,11 +35,11 @@ const connectDb = () => new Promise((resolve, reject) => {
 
   app.use(cors({
     credentials: true,
-    origin: ['https://practical-turing-272195.netlify.app', 'http://localhost:8080'],
+    origin: ['https://chatty-io.netlify.app', 'http://localhost:8080'],
   }))
 
   const io = SocketIO(server)
-  io.origins(['https://practical-turing-272195.netlify.app:443', 'http://localhost:8080'])
+  io.origins(['https://chatty-io.netlify.app:443', 'http://localhost:8080'])
 
   const db = await connectDb()
   const dbUsers = db.collection('users')
